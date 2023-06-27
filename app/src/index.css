@@ -1,0 +1,239 @@
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+:root {
+    --backgroundColor: #f5f5f5;
+    --accentColor: #386dca;
+}
+
+html {
+    scrollbar-gutter: stable;
+}
+
+body {
+    margin: 0;
+    color: #2D2D2D;
+    background: var(--backgroundColor);
+}
+
+.Button {
+    height: 30px;
+    cursor: pointer;
+}
+
+.Button--2 {
+    background: none;
+    height: 30px;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.Button--2:hover {
+    opacity: 0.7;
+}
+
+.App {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Header {
+    width: 100%;
+    max-width: 1000px;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    padding-inline: 50px;
+}
+
+.Header--Logo:hover {
+    cursor: pointer;
+}
+
+.SearchBar {
+    height: 30px;
+    display: flex;
+    border: 1px solid #777;
+    border-radius: 5px;
+}
+
+.SearchBar > img {
+    padding: 8px;
+    opacity: 0.5;
+}
+
+.SearchBar > input {
+    width: 120px;
+    padding-inline: 10px;
+    border: none;
+    background: none;
+}
+
+.SearchBar > input:focus {
+    outline: none;
+}
+
+.MainPage {
+    width: 100%;
+    max-width: 1000px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    gap: 40px;
+}
+
+.SubmitForm {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+}
+
+.SubmitForm > input {
+    height: 30px;
+    border: 1px solid #777;
+    border-radius: 5px;
+    padding-inline: 5px;
+}
+
+.SubmitForm > select {
+    height: 30px;
+    border: 1px solid #777;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.SubmitForm > textarea {
+    height: 100px;
+    border: 1px solid #777;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.StreamerList {
+    width: 80%;
+    display: grid;
+    justify-content: center;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, 200px);
+}
+
+.StreamerTile {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    /* border: 1px solid #777; */
+    /* border-radius: 15px; */
+    padding: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* .StreamerTile:hover {
+    opacity: 0.7;
+} */
+
+.StreamerTile:last-child {
+    margin-right: auto;
+}
+
+.StreamerTile--Top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.StreamerTile--Top > section {
+    display: flex;
+    flex-direction: column;
+}
+
+.StreamerTile--Top > section:nth-child(1) {
+    flex-shrink: 0;
+}
+
+.StreamerTile--Top > section:nth-child(2) {
+    width: 100%;
+    text-align: right;
+    overflow: hidden;
+}
+
+.StreamerTile--Name {
+    margin: 0;
+    font-size: 15px;
+}
+
+.StreamerTile--Platform {
+    margin: 0;
+    font-size: 13px;
+}
+
+.StreamerTile--Image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.StreamerTile--Description {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 13px;
+    word-wrap: break-word;
+    color: #555;
+}
+
+.VoteButton {
+    width: 40px;
+    height: 23px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    padding: 2px 5px 2px 1px;
+    user-select: none;
+}
+
+.VoteButton:hover {
+    opacity: 0.7;
+}
+
+.VoteButton > img {
+    height: 100%;
+}
+
+.GoUpArrow {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: var(--accentColor);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #0003;
+    transition: transform 300ms ease;
+}

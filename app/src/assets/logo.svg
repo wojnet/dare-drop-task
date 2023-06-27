@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="50mm"
+   height="12mm"
+   viewBox="0 0 50 12"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <g
+     id="layer1"
+     transform="translate(13.461676)">
+    <text
+       xml:space="preserve"
+       style="font-size:10.4431px;line-height:0.45;font-family:sans-serif;word-spacing:0px;stroke-width:0.26108;stroke:none;stroke-opacity:1;fill:#386dca;fill-opacity:1"
+       x="14.455072"
+       y="6.250556"
+       id="text1772"
+       transform="scale(1.0185534,0.98178456)"><tspan
+         id="tspan1770"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05556px;font-family:Quicksand;-inkscape-font-specification:'Quicksand, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.26108;stroke:none;stroke-opacity:1;fill:#386dca;fill-opacity:1"
+         x="14.455072"
+         y="6.250556"
+         rotate="0 0 0 0 0 0 0 0 0">STREAMER</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.87348px;font-family:Quicksand;-inkscape-font-specification:'Quicksand, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:1.24883px;text-anchor:middle;stroke-width:0.26108;stroke:none;stroke-opacity:1;fill:#386dca;fill-opacity:1"
+         x="14.649576"
+         y="10.949951"
+         id="tspan2764"
+         rotate="0 0 0 0 0 0 0 0 0 0">SPOTLIGHT</tspan></text>
+    <path
+       style="fill:none;stroke:#386dca;stroke-width:0.408731px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m -5.7689016,1.4834189 c 0,0 -4.5485214,0 -4.5485214,4.5485224 0,4.5485227 4.5485214,4.5485227 4.5485214,4.5485227"
+       id="path21348" />
+    <path
+       style="fill:none;stroke:#386dca;stroke-width:0.310068px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m -5.7689016,2.5813771 c 0,0 -3.4505634,0 -3.4505634,3.4505642 0,3.4505645 3.4505634,3.4505645 3.4505634,3.4505645"
+       id="path21752" />
+    <path
+       style="fill:none;stroke:#386dca;stroke-width:0.214194px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m -5.7689016,3.648298 c 0,0 -2.3836428,0 -2.3836428,2.3836433 0,2.3836436 2.3836428,2.3836436 2.3836428,2.3836436"
+       id="path21754" />
+    <path
+       style="fill:none;stroke:#386dca;stroke-width:0.134404px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m -5.7689016,4.5362374 c 0,0 -1.4957036,0 -1.4957036,1.495704 0,1.4957041 1.4957036,1.4957041 1.4957036,1.4957041"
+       id="path21756" />
+  </g>
+</svg>
