@@ -21,19 +21,12 @@ const io = socket(server, {
 
 io.on("connection", (socket) => {
     console.log(`Client ${socket.id} connected`);
-    // socket.join("random-room");
     socket.on("disconnect", (reason) => console.log(`Client ${socket.id} disconnected - ${reason}`));
 });
 
 app.set("socketio", io);
 
 app.use("/streamers", streamersRouter);
-
-// const getRandomNumber = () => Math.floor(Math.random()*100000);
-
-// setInterval(() => {
-//     io.to("random-room").emit("number", getRandomNumber());
-// }, 1000);
 
 server.listen(PORT, (err) => {
     if (err) throw err;

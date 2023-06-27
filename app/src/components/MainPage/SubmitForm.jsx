@@ -57,7 +57,6 @@ const SubmitForm = ({ socket }) => {
             >
                 <option value="twitch">Twitch</option>
                 <option value="youtube">YouTube</option>
-                <option value="restream">Restream</option>
                 <option value="facebook">Facebook</option>
             </select>
 
@@ -75,7 +74,7 @@ const SubmitForm = ({ socket }) => {
                 onChange={ (event) => updateStreamerInfo(event, "description") }
             />
 
-            <input type="submit" value="Submit" className="Button" />
+            <input type="submit" value="Submit Streamer" className="Button" />
         </form>
     );
 }

@@ -44,10 +44,10 @@ const App = () => {
 
     return (
         <div className="App">
-            <Header />
+            <Header streamersData={streamersData} />
             <Routes>
                 <Route path="/" element={<MainPage socket={socket} streamersData={streamersData} setStreamersData={setStreamersData} />} />
-                <Route path="/streamer/:id" element={<StreamerPage socket={socket} streamersData={streamersData} setStreamersData={setStreamersData} />} />
+                <Route path="/streamer/:id" element={<StreamerPage socket={socket} streamersData={streamersData} />} />
             </Routes>
         </div>
     );

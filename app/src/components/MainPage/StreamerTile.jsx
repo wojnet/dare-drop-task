@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import VoteButton from "../VoteButton.jsx";
 import StreamerImage from "../../assets/streamer1.jpg";
+import TwitchLogo from "../../assets/platformIcons/twitch.svg";
+import YoutubeLogo from "../../assets/platformIcons/youtube.svg";
+import FacebookLogo from "../../assets/platformIcons/facebook.svg";
 
 const StreamerTile = ({ id, name, platform, description, upvotes, downvotes }) => {
     const navigate = useNavigate();
@@ -9,11 +12,10 @@ const StreamerTile = ({ id, name, platform, description, upvotes, downvotes }) =
         navigate(`/streamer/${id}`);
     };
 
-    const platformDisplayNames = {
-        twitch: "Twitch",
-        youtube: "YouTube",
-        restream: "Restream",
-        facebook: "Facebook"
+    const platformLogos = {
+        twitch: TwitchLogo,
+        youtube: YoutubeLogo,
+        facebook: FacebookLogo
     }
 
     return (
@@ -25,7 +27,7 @@ const StreamerTile = ({ id, name, platform, description, upvotes, downvotes }) =
                 </section>
                 <section>
                     <h3 className="StreamerTile--Name">{name.toUpperCase()}</h3>
-                    <p className="StreamerTile--Platform">{platformDisplayNames[platform] || "Undefined"}</p>
+                    <img className="StreamerTile--Platform" src={platformLogos[platform] || null} alt={`${platform} logo`} />
                 </section>
             </section>
             <img src={StreamerImage} alt={`${name} image`} className="StreamerTile--Image" />

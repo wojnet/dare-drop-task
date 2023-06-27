@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../services/database/database.js");
 
-const allowedStreamingPlatforms = ["twitch", "youtube", "restream", "facebook"];
+const allowedStreamingPlatforms = ["twitch", "youtube", "facebook"];
 
 //[POST] /streamers - recieve streamer submissions from the frontend (emit socket io update)
 

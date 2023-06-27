@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SearchBar from "./SearchBar";
+import SearchBar from "./SearchBar/SearchBar";
 import Logo from "../assets/logo.svg";
 
-const Header = () => {
+const Header = ({ streamersData }) => {
     const [isReturnArrowVisible, setIsReturnArrowVisible] = useState(false);
     const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const Header = () => {
             { isReturnArrowVisible && 
                 <button className="Button--2" style={{ marginInline: "20px auto" }} onClick={handleReturn}>❮ RETURN</button> 
             }
-            <SearchBar />
+            <SearchBar streamersData={streamersData} />
         </header>
     );
 }

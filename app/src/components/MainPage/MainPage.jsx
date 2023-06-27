@@ -20,7 +20,10 @@ const MainPage = ({ socket, streamersData, setStreamersData }) => {
     return (
         <div className="MainPage">
             <SubmitForm socket={socket} />
-            <h1>Streamer List</h1>
+            <section className="StreamerList--Title">
+                <h3>STREAMER LIST</h3>
+                <p>A list of submitted streamers that you can upvote or downvote</p>
+            </section>
             <StreamerList streamersData={streamersData} />
         </div>
     );
