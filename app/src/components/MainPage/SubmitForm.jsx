@@ -8,7 +8,7 @@ const SubmitForm = () => {
     const [streamerInfo, setStreamerInfo] = useState({
         name: "",
         platform: "twitch",
-        description: "",
+        description: ""
     });
 
     const HighlightedStyles = {
@@ -87,9 +87,6 @@ const SubmitForm = () => {
                 value={streamerInfo?.platform}
                 onChange={ (event) => updateStreamerInfo(event, "platform") }
             >
-                {/* <option value="twitch">Twitch</option>
-                <option value="youtube">YouTube</option>
-                <option value="facebook">Facebook</option> */}
                 {dropdownOptionElements}
             </select>
 
