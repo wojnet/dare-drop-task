@@ -69,7 +69,8 @@ router.put("/:streamerId/vote", (req, res) => {
     const { getConnectedUsers, setConnectedUsers } = req;
 
     const connectedUsers = getConnectedUsers();
-    const connectedUserVotes = [...connectedUsers].filter(user => user.id === socketId)[0].votes;
+
+    const connectedUserVotes = [...connectedUsers].filter(user => user.id === socketId)[0].votes || [];
     const connectedUserIndex = [...connectedUsers].findIndex(user => user.id === socketId);
     
     const getVoteStatus = () => connectedUserVotes.filter(vote => vote.streamerId === streamerId)[0]?.status || "unvoted";
