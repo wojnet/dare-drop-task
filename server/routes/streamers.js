@@ -43,7 +43,6 @@ router.get("/", (req, res) => {
         if (err) return res.status(500).end();
 
         res.status(200).json(rows);
-        res.end();
     });
 });
 
@@ -58,7 +57,6 @@ router.get("/:streamerId", (req, res) => {
         if (err) return res.status(500).end();
 
         res.status(200).json(row);
-        res.end();
     });
 });
 
@@ -74,16 +72,8 @@ router.put("/:streamerId/vote", (req, res) => {
     const connectedUserVotes = [...connectedUsers].filter(user => user.id === socketId)[0].votes;
     const connectedUserIndex = [...connectedUsers].findIndex(user => user.id === socketId);
     
-    let currentVoteStatus;
+    const currentVoteStatus = getVoteStatus();
     let newVoteStatus;
-
-    // const getVoteStatus = () => {
-    //     if ([...connectedUserVotes].some(vote => vote.streamerId === streamerId)) {
-    //         return connectedUserVotes.filter(vote => vote.streamerId === streamerId)[0].status;
-    //     } else {
-    //         return "unvoted";
-    //     }
-    // }
 
     const getVoteStatus = () => connectedUserVotes.filter(vote => vote.streamerId === streamerId)[0]?.status || "unvoted";
 
@@ -163,16 +153,14 @@ router.put("/:streamerId/vote", (req, res) => {
         }
     }
 
-    currentVoteStatus = getVoteStatus();
     handleVote(currentVoteStatus);
-
     updateUserArray(newVoteStatus);
 
     const io = req.app.get("socketio");
     io.emit("update-streamer-data", {id: streamerId, returnedVoteStatus: newVoteStatus});
 
     res.status(200);
-    res.end(req.params.streamerId + " - voted");
+    res.end();
 });
 
 module.exports = router;

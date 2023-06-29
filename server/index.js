@@ -45,5 +45,5 @@ app.use("/streamers", (req, res, next) => {
 
 server.listen(PORT, (err) => {
     if (err) throw err;
-    console.log(`server running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });

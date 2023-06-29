@@ -4,7 +4,10 @@ const databasePath = __dirname + "/database.db";
 
 const createDatabaseConnection = () => {
     const db = new sqlite3.Database(databasePath, sqlite3.OPEN_READWRITE, (err) => {
-        if (err) return console.log(err);
+        if (err) {
+            console.log(err);
+            return null;
+        };
     });
     return db;
 }

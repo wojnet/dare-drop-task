@@ -10,7 +10,7 @@ export const platformLogos = {
     facebook: FacebookLogo,
     tiktok: TikTokLogo,
     rumble: RumbleLogo
-}
+};
 
 export const platformNames = {
     twitch: "Twitch",
@@ -18,4 +18,4 @@ export const platformNames = {
     facebook: "Facebook",
     tiktok: "TikTok",
     rumble: "Rumble"
-}
+};

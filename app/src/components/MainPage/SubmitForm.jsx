@@ -67,7 +67,7 @@ const SubmitForm = () => {
     }
 
     const dropdownOptionElements = Object.keys(platformNames)
-        .map(platform => <option value={platform}>{platformNames[platform]}</option>);
+        .map(platform => <option key={platform} value={platform}>{platformNames[platform]}</option>);
 
     return (
         <form className="SubmitForm" onSubmit={submitStreamer}>

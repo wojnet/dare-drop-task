@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
-import { socket } from "./service/socket";
+import { socket } from "./services/socket";
 import Header from "./components/Header";
 import MainPage from "./components/MainPage/MainPage";
 import StreamerPage from "./components/StreamerPage/StreamerPage";
@@ -28,12 +28,10 @@ const App = () => {
 
     useEffect(() => {
         const onFetchAllStreamers = async () => {
-            console.log("ON FETCH ALL STREAMERS");
             await fetchAllStreamers();
         };
 
         const onUpdateStreamerData = async (data) => {
-            console.log("ON UPDATE STREAMER DATA");
             await updateStreamerData(data.id, data.returnedVoteStatus);
         };
 
@@ -61,10 +59,6 @@ const App = () => {
             socket.disconnect();
         };
     }, []);
-
-    // useEffect(() => {
-    //     console.log(streamersData);
-    // }, [streamersData]);
 
     return (
         <div className="App">

@@ -6,7 +6,6 @@ import { platformLogos, platformNames } from "../../helpers/platforms";
 
 const StreamerPage = ({ streamersData }) => {
     const { id } = useParams();
-    const [failedFetchAttempts, setFailedFetchAttempts] = useState(0);
     const [isDataFetched, setIsDataFetched] = useState(false); 
 
     const [streamerData, setStreamerData] = useState({
@@ -19,6 +18,10 @@ const StreamerPage = ({ streamersData }) => {
         voteStatus: "unvoted"
     });
 
+    // const setRetrayTimeout = (executeFunction, time) => {
+    //     if (failedFetchAttempts < 5) setTimeout(() => executeFunction(), time);
+    // }
+
     const getStreamerData = () => {
         let filteredData = streamersData.filter(streamer => streamer.id == id);
         if (filteredData.length > 0) {
@@ -26,7 +29,6 @@ const StreamerPage = ({ streamersData }) => {
             setIsDataFetched(true);
         } else {
             setTimeout(() => {
-                setFailedFetchAttempts(prev => prev + 1);
                 getStreamerData();
             }, 1000);
         }
@@ -35,13 +37,6 @@ const StreamerPage = ({ streamersData }) => {
     useEffect(() => {
         if (streamersData.length > 0) getStreamerData();
     }, [streamersData]);
-    
-    if (failedFetchAttempts >= 5) return (
-        <>
-            <h1>FETCH FAILED</h1>
-            <p style={{ color: "var(--lightGray)" }}>Information about this streamer could not be obtained</p>
-        </>
-    );
 
     if (!isDataFetched) return (
         <h1>FETCHING...</h1>
