@@ -32,7 +32,7 @@ const StreamerTile = ({ id, name, platform, description, upvotes, downvotes, vot
                     <img className="StreamerTile--Platform" src={platformLogos[platform] || null} alt={`${platform} logo`} />
                 </section>
             </section>
-            <img src={StreamerImage} alt={`${name} image`} className="StreamerTile--Image" />
+            <img src={StreamerImage} alt="Streamer image" className="StreamerTile--Image" />
             <p className="StreamerTile--Description">{description}</p>
         </div>
     );
