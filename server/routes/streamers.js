@@ -72,10 +72,10 @@ router.put("/:streamerId/vote", (req, res) => {
     const connectedUserVotes = [...connectedUsers].filter(user => user.id === socketId)[0].votes;
     const connectedUserIndex = [...connectedUsers].findIndex(user => user.id === socketId);
     
+    const getVoteStatus = () => connectedUserVotes.filter(vote => vote.streamerId === streamerId)[0]?.status || "unvoted";
+
     const currentVoteStatus = getVoteStatus();
     let newVoteStatus;
-
-    const getVoteStatus = () => connectedUserVotes.filter(vote => vote.streamerId === streamerId)[0]?.status || "unvoted";
 
     const changeVotesByNumber = (column, method) => {
         let query = `UPDATE streamers SET ${column} = ${column} ${method === "increment" ? "+ 1" : method === "decrement" ? "- 1" : ""} WHERE id = ?;`;
