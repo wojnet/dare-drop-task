@@ -6,6 +6,9 @@
 :root {
     --backgroundColor: #f5f5f5;
     --accentColor: #386dca;
+    --gray: #555;
+    --lightGray: #888;
+    --errorRed: #f78b8b;
 }
 
 html {
@@ -21,19 +24,6 @@ body {
 .Button {
     height: 30px;
     cursor: pointer;
-}
-
-.Button--2 {
-    background: none;
-    height: 30px;
-    cursor: pointer;
-    border: none;
-    font-weight: bold;
-    font-size: 10px;
-}
-
-.Button--2:hover {
-    opacity: 0.7;
 }
 
 .App {
@@ -59,15 +49,30 @@ body {
     cursor: pointer;
 }
 
+.Header--ReturnButton {
+    background: none;
+    height: 30px;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    font-size: 10px;
+    margin-inline: 20px auto;
+}
+
+.Header--ReturnButton:hover {
+    opacity: 0.7;
+}
+
 .SearchBar {
     width: 150px;
     height: 30px;
     display: flex;
-    border: 1px solid #777;
+    border: 1px solid var(--lightGray);
     border-radius: 5px;
 }
 
 .SearchBar > img {
+    height: 100%;
     padding: 8px;
     opacity: 0.5;
 }
@@ -81,27 +86,6 @@ body {
 
 .SearchBar > input:focus {
     outline: none;
-}
-
-.SearchResultList {
-    width: 150px;
-    min-height: 20px;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    padding-top: 10px;
-    transform: translateY(30px);
-}
-
-.SearchResult {
-    width: 100%;
-    height: 70px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 10px;
-    user-select: none;
-    padding-block: 10px;
 }
 
 .SearchResult > img {
@@ -140,26 +124,34 @@ body {
     gap: 5px;
 }
 
+.SubmitForm--Title {
+    text-align: center;
+    font-size: 2rem;
+    margin-block: 10px 30px;
+    line-height: 1;
+}
+
 .SubmitForm > input {
     height: 30px;
-    border: 1px solid #777;
+    border: 1px solid var(--lightGray);
     border-radius: 5px;
     padding-inline: 5px;
 }
 
 .SubmitForm > select {
     height: 30px;
-    border: 1px solid #777;
+    border: 1px solid var(--lightGray);
     border-radius: 5px;
     cursor: pointer;
 }
 
 .SubmitForm > textarea {
     height: 100px;
-    border: 1px solid #777;
+    border: 1px solid var(--lightGray);
     border-radius: 5px;
     padding: 5px;
     resize: vertical;
+    transition: border 300ms ease;
 }
 
 .StreamerList {
@@ -168,6 +160,7 @@ body {
     justify-content: center;
     gap: 20px;
     grid-template-columns: repeat(auto-fill, 200px);
+    padding-bottom: 40px;
 }
 
 .StreamerList--Title {
@@ -176,18 +169,26 @@ body {
 }
 
 .StreamerList--Title > p {
-    color: #777;
+    color: var(--lightGray);
 }
 
 .StreamerTile {
     width: 200px;
+    height: 414px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
     padding: 10px;
     overflow: hidden;
+    outline: 1px solid #0000;
+    border-radius: 10px;
+    transition: outline 300ms ease;
+}
+
+.StreamerTile:hover {
     cursor: pointer;
+    outline: 1px solid var(--lightGray);
 }
 
 .StreamerTile:last-child {
@@ -225,7 +226,6 @@ body {
 .StreamerTile--Name {
     margin: 0;
     font-size: 14px;
-    /* flex-shrink: 0; */
 }
 
 .StreamerTile--Platform {
@@ -244,29 +244,73 @@ body {
 
 .StreamerTile--Description {
     width: 100%;
+    height: 68px;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     font-size: 13px;
     word-wrap: break-word;
-    color: #555;
+    color: var(--gray);
 }
 
 .StreamerPage  {
     width: 100%;
     max-width: 1000px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+    padding-top: 50px;
+    padding-inline: 50px;
 }
 
 .StreamerPage > img {
-    width: 180px;
-    height: 220px;
+    width: 270px;
+    height: 400px;
     object-fit: cover;
     border-radius: 15px;
+}
+
+.StreamerPage--Right {
+    width: 30vw;
+    max-width: 270px;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.StreamerPage--Right > h1 {
+    font-size: 2.5rem;
+}
+
+.StreamerPage--Title {
+    margin: 0;
+}
+
+.StreamerPage--Platform {
+    width: 100px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.7;
+    user-select: none;
+}
+
+.StreamerPage--Platform > img {
+    height: 100%;
+}
+
+.StreamerPage--Description {
+    color: var(--lightGray);
+}
+
+.StreamerPage--VoteButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 50px;
 }
 
 .VoteButton {
@@ -305,4 +349,16 @@ body {
     cursor: pointer;
     box-shadow: 0 0 10px #0003;
     transition: transform 300ms ease;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0px);
+    } 25% {
+        transform: translateX(5px);
+    } 75% {
+        transform: translateX(-5px);
+    } 100% {
+        transform: translateX(0px);
+    }
 }

@@ -1,21 +1,10 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import SubmitForm from "./SubmitForm";
 import StreamerList from "./StreamerList";
+import SearchBar from "../SearchBar";
 
-const MainPage = ({ socket, streamersData, setStreamersData }) => {
-    const fetchStreamers = async () => {
-        const streamersResult = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/streamers`);
-        setStreamersData([...streamersResult.data]);
-    }
-
-    useEffect(() => {
-        socket.on("refetch-streamers", async (data) => {
-            await fetchStreamers();
-        });
-
-        fetchStreamers();
-    }, []);
+const MainPage = ({ socket, streamersData }) => {
+    const [searchString, setSearchString] = useState("");
 
     return (
         <div className="MainPage">
@@ -24,7 +13,8 @@ const MainPage = ({ socket, streamersData, setStreamersData }) => {
                 <h3>STREAMER LIST</h3>
                 <p>A list of submitted streamers that you can upvote or downvote</p>
             </section>
-            <StreamerList streamersData={streamersData} />
+            <SearchBar searchString={searchString} setSearchString={setSearchString} />
+            <StreamerList streamersData={streamersData} searchString={searchString} />
         </div>
     );
 }

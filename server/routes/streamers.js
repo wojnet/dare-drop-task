@@ -2,15 +2,24 @@ const express = require("express");
 const router = express.Router();
 const db = require("../services/database/database.js");
 
-const allowedStreamingPlatforms = ["twitch", "youtube", "facebook"];
+const allowedStreamingPlatforms = ["twitch", "youtube", "facebook", "tiktok", "rumble"];
+
 
 //[POST] /streamers - recieve streamer submissions from the frontend (emit socket io update)
 
 router.post("/", (req, res) => {
     const { name, platform, description } = req.body;
 
+    if (name.length <= 0) {
+        return res.status(400).send("No name entered");
+    }
+ 
+    if (description.length > 1000) {
+        return res.status(400).send("Too long description");
+    }
+
     if (!allowedStreamingPlatforms.includes(platform)) {
-        return res.status(400).send("invalid platform name");
+        return res.status(400).send("Invalid platform name");
     }
     
     let query = "INSERT INTO streamers (name, platform, description) VALUES (?, ?, ?);";
@@ -19,7 +28,7 @@ router.post("/", (req, res) => {
     });
 
     const io = req.app.get("socketio");
-    io.emit("refetch-streamers");
+    io.emit("fetch-all-streamers");
 
     res.status(200);
     res.end();
@@ -58,26 +67,109 @@ router.get("/:streamerId", (req, res) => {
 
 router.put("/:streamerId/vote", (req, res) => {
     const { streamerId } = req.params;
-    const { type } = req.body;
+    const { type, socketId } = req.body;
+    const { getConnectedUsers, setConnectedUsers } = req;
 
-    let columnName;
+    const connectedUsers = getConnectedUsers();
+    const connectedUserVotes = [...connectedUsers].filter(user => user.id === socketId)[0].votes;
+    const connectedUserIndex = [...connectedUsers].findIndex(user => user.id === socketId);
     
-    switch(type) {
-        case "upvote":
-            columnName = "upvotes";
-            break;
-        case "downvote":
-            columnName = "downvotes";
-            break;
+    let currentVoteStatus;
+    let newVoteStatus;
+
+    // const getVoteStatus = () => {
+    //     if ([...connectedUserVotes].some(vote => vote.streamerId === streamerId)) {
+    //         return connectedUserVotes.filter(vote => vote.streamerId === streamerId)[0].status;
+    //     } else {
+    //         return "unvoted";
+    //     }
+    // }
+
+    const getVoteStatus = () => connectedUserVotes.filter(vote => vote.streamerId === streamerId)[0]?.status || "unvoted";
+
+    const changeVotesByNumber = (column, method) => {
+        let query = `UPDATE streamers SET ${column} = ${column} ${method === "increment" ? "+ 1" : method === "decrement" ? "- 1" : ""} WHERE id = ?;`;
+
+        db.run(query, [streamerId], (result, err) => {
+            if (err) return res.status(500).end();
+        });
     }
 
-    let query = `UPDATE streamers SET ${columnName} = ${columnName} + 1 WHERE id = ?;`;
-    db.run(query, [streamerId], (result, err) => {
-        if (err) return res.status(500).end();
-    });
+    const updateUserArray = (newVoteStatus) => {
+        let newUserArray = [...connectedUsers];
+        
+        switch (newVoteStatus) {
+            case "unvoted":
+                newUserArray[connectedUserIndex].votes = newUserArray[connectedUserIndex].votes.filter(vote => vote.streamerId !== streamerId);
+                
+                setConnectedUsers(newUserArray);
+                return;
+    
+            case "upvoted": 
+                newUserArray[connectedUserIndex].votes = newUserArray[connectedUserIndex].votes.filter(vote => vote.streamerId !== streamerId);
+                newUserArray[connectedUserIndex].votes.push({
+                    streamerId: streamerId,
+                    status: "upvoted"
+                });
+    
+                setConnectedUsers(newUserArray);
+                return;
+    
+            case "downvoted":
+                newUserArray[connectedUserIndex].votes = newUserArray[connectedUserIndex].votes.filter(vote => vote.streamerId !== streamerId);
+                newUserArray[connectedUserIndex].votes.push({
+                    streamerId: streamerId,
+                    status: "downvoted"
+                });
+    
+                setConnectedUsers(newUserArray);
+                return;
+        }
+    }
+
+    const handleVote = (currentVoteStatus) => {
+        switch (currentVoteStatus) {
+            case "unvoted":
+                if (type === "upvote") {
+                    changeVotesByNumber("upvotes", "increment");
+                    newVoteStatus =  "upvoted";
+                } else if (type === "downvote") {
+                    changeVotesByNumber("downvotes", "increment");
+                    newVoteStatus = "downvoted";
+                }
+                break;
+    
+            case "upvoted":
+                if (type === "upvote") {
+                    changeVotesByNumber("upvotes", "decrement");
+                    newVoteStatus =  "unvoted";
+                } else if (type === "downvote") {
+                    changeVotesByNumber("upvotes", "decrement");
+                    changeVotesByNumber("downvotes", "increment");
+                    newVoteStatus = "downvoted";
+                }
+                break;
+    
+            case "downvoted":
+                if (type === "upvote") {
+                    changeVotesByNumber("upvotes", "increment");
+                    changeVotesByNumber("downvotes", "decrement");
+                    newVoteStatus =  "upvoted";
+                } else if (type === "downvote") {
+                    changeVotesByNumber("downvotes", "decrement");
+                    newVoteStatus =  "unvoted";
+                }
+                break;
+        }
+    }
+
+    currentVoteStatus = getVoteStatus();
+    handleVote(currentVoteStatus);
+
+    updateUserArray(newVoteStatus);
 
     const io = req.app.get("socketio");
-    io.emit("refetch-streamers", {id: streamerId});
+    io.emit("update-streamer-data", {id: streamerId, returnedVoteStatus: newVoteStatus});
 
     res.status(200);
     res.end(req.params.streamerId + " - voted");

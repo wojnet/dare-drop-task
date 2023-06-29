@@ -1,12 +1,34 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { platformNames } from "../../helpers/platforms";
 
-const SubmitForm = ({ socket }) => {
+const SubmitForm = () => {
+    const [isNameHighlighted, setIsNameHighlighted] = useState(false);
+    const [isDescriptionHighlighted, setIsDescriptionHighlighted] = useState(false);
     const [streamerInfo, setStreamerInfo] = useState({
         name: "",
         platform: "twitch",
         description: "",
     });
+
+    const HighlightedStyles = {
+        border: "1px solid var(--errorRed)",
+        animation: "shake 1s ease-in-out"
+    }
+
+    const highlightName = () => {
+        if (!isNameHighlighted) {
+            setIsNameHighlighted(true);
+            setTimeout(() => setIsNameHighlighted(false), 1000);
+        }
+    }
+
+    const highlightDescription = () => {
+        if (!isDescriptionHighlighted) {
+            setIsDescriptionHighlighted(true);
+            setTimeout(() => setIsDescriptionHighlighted(false), 1000);
+        }
+    }
 
     const updateStreamerInfo = (event, property) => {
         setStreamerInfo(prev => {
@@ -18,16 +40,22 @@ const SubmitForm = ({ socket }) => {
 
     const submitStreamer = async (event) => {
         event.preventDefault();
-        if (streamerInfo.description.length > 1000) {
-           alert("Too much characters in description field!")
+        let isDataValid = true;
 
-        } else {
+        if (streamerInfo.name.length <= 0) {
+            highlightName();
+        }
+
+        if (streamerInfo.description.length > 1000) {
+            highlightDescription();
+        }
+
+        if (isDataValid) {
             axios.post(`${import.meta.env.VITE_BACKEND_URL}/streamers`, {
                 name: streamerInfo.name,
                 platform: streamerInfo.platform,
                 description: streamerInfo.description
             })
-            .then((res) => console.log(res))
             .then(() => {
                 setStreamerInfo(prev => {
                     let newObject = {...prev, name: "", description: ""};
@@ -38,15 +66,19 @@ const SubmitForm = ({ socket }) => {
         }
     }
 
+    const dropdownOptionElements = Object.keys(platformNames)
+        .map(platform => <option value={platform}>{platformNames[platform]}</option>);
+
     return (
         <form className="SubmitForm" onSubmit={submitStreamer}>
+            <h2 className="SubmitForm--Title">SUBMIT STREAMER</h2>
             <label htmlFor="streamerName">Name</label>
             <input
                 type="text"
                 id="streamerName"
+                style={isNameHighlighted ? HighlightedStyles : {}}
                 value={streamerInfo?.name}
                 onChange={ (event) => updateStreamerInfo(event, "name") }
-                required
             />
 
             <label htmlFor="streamerPlatform">Platform</label>
@@ -55,21 +87,22 @@ const SubmitForm = ({ socket }) => {
                 value={streamerInfo?.platform}
                 onChange={ (event) => updateStreamerInfo(event, "platform") }
             >
-                <option value="twitch">Twitch</option>
+                {/* <option value="twitch">Twitch</option>
                 <option value="youtube">YouTube</option>
-                <option value="facebook">Facebook</option>
+                <option value="facebook">Facebook</option> */}
+                {dropdownOptionElements}
             </select>
 
-            <label htmlFor="streamerDescription">Description
-                <span 
-                    style={{ fontSize: 14, color: streamerInfo.description.length > 1000 ? "#D66" : "#777" }}
-                >
+            <label htmlFor="streamerDescription">
+                Description
+                <span style={{ fontSize: 14, color: streamerInfo.description.length > 1000 ? "#D66" : "#777" }}>
                     {` (${streamerInfo.description.length}/1000)`}
                 </span>
             </label>
             <textarea
                 type="text"
                 id="streamerDescription"
+                style={isDescriptionHighlighted ? HighlightedStyles : {}}
                 value={streamerInfo?.description}
                 onChange={ (event) => updateStreamerInfo(event, "description") }
             />

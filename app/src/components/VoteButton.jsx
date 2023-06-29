@@ -1,15 +1,17 @@
 import axios from "axios";
-import UpvoteIcon from "../assets/upvote.svg";
-import DownvoteIcon from "../assets/downvote.svg";
+import UpvoteIcon from "../assets/voteIcons/upvote.svg";
+import PressedUpvoteIcon from "../assets/voteIcons/pressedUpvote.svg";
+import DownvoteIcon from "../assets/voteIcons/downvote.svg";
+import PressedDownvoteIcon from "../assets/voteIcons/pressedDownvote.svg";
 
-export const VoteButton = ({ type, number, id }) => {
+export const VoteButton = ({ type, number, id, isPressed }) => {
     let icon;
     switch(type) {
         case "upvote":
-            icon = UpvoteIcon;
+            icon = isPressed ? PressedUpvoteIcon : UpvoteIcon;
             break;
         case "downvote":
-            icon = DownvoteIcon;
+            icon = isPressed ? PressedDownvoteIcon : DownvoteIcon;
             break;
         default:
             icon = null;
@@ -18,12 +20,15 @@ export const VoteButton = ({ type, number, id }) => {
 
     const vote = async (event, type) => {
         event.stopPropagation();
-        axios.put(`${import.meta.env.VITE_BACKEND_URL}/streamers/${id}/vote`, { type: type });
+        axios.put(`${import.meta.env.VITE_BACKEND_URL}/streamers/${id}/vote`, { 
+            type: type,
+            socketId: sessionStorage.getItem("socketId")
+        });
     }
 
     return (
         <div className="VoteButton" onClick={(event) => vote(event, type)}>
-            <img src={icon} alt="vote button" />
+            <img src={icon} alt={`${type} icon`} />
             <p>{number | "N/A"}</p>
         </div>
     )

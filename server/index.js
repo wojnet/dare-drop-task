@@ -13,20 +13,35 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+let connectedUsers = [];
+
 const io = socket(server, {
-    cors: {
-        origin: "*"
-    }
+    cors: { origin: "*" }
 });
 
 io.on("connection", (socket) => {
-    console.log(`Client ${socket.id} connected`);
-    socket.on("disconnect", (reason) => console.log(`Client ${socket.id} disconnected - ${reason}`));
+    connectedUsers.push({
+        id: socket.id,
+        votes: []
+    });
+
+    console.log(`User ${socket.id} connected`);
+
+    socket.on("disconnect", (reason) => {
+        console.log(`User ${socket.id} disconnected - ${reason}`);
+        connectedUsers = connectedUsers.filter(user => user.id !== socket.id);
+    });
 });
 
 app.set("socketio", io);
 
-app.use("/streamers", streamersRouter);
+app.use("/streamers", (req, res, next) => {
+    req.setConnectedUsers = (newArray) => {
+        connectedUsers = newArray;
+    }
+    req.getConnectedUsers = () => connectedUsers;
+    next();
+}, streamersRouter);
 
 server.listen(PORT, (err) => {
     if (err) throw err;
